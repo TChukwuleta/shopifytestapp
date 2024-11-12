@@ -1,0 +1,32 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "cb0bed0116a79c8a78302a9170a11666"
+name = "igbala"
+handle = "igbala"
+application_url = "https://changes-downloadable-hope-communities.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = false
+dev_store_url = "quickstart-4c9539b2.myshopify.com"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://changes-downloadable-hope-communities.trycloudflare.com/auth/callback",
+  "https://changes-downloadable-hope-communities.trycloudflare.com/auth/shopify/callback",
+  "https://changes-downloadable-hope-communities.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-10"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+[pos]
+embedded = false
