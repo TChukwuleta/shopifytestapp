@@ -15,7 +15,7 @@ export async function loader({ request }) {
   });
   return { btcpayUrl: btcpayServerRecord?.btcpayUrl, btcpayStoreId: btcpayServerRecord?.btcpayStoreId };
 }
-
+ 
 export const action = async ({ request }) => {
   await authenticate.admin(request);
   try {
