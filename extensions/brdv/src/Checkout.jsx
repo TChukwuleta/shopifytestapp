@@ -28,7 +28,7 @@ function Extension() {
   const { currencyCode, amount } = useTotalAmount();
   const instructions = useInstructions();
 
-  const shopifyApplicaitonUrl = 'https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app';
+  const shopifyApplicaitonUrl = 'https://shopifytestapp-eosin.vercel.app';
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState(null);
   const [btcPayUrl, setBtcPayUrl] = useState(null);

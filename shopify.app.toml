@@ -3,7 +3,7 @@
 client_id = "cb0bed0116a79c8a78302a9170a11666"
 name = "igbala"
 handle = "igbala"
-application_url = "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app"
+application_url = "https://shopifytestapp-eosin.vercel.app"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app/auth/callback",
-  "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app/auth/shopify/callback",
-  "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app/api/auth/callback"
+  "https://shopifytestapp-eosin.vercel.app/auth/callback",
+  "https://shopifytestapp-eosin.vercel.app/auth/shopify/callback",
+  "https://shopifytestapp-eosin.vercel.app/api/auth/callback"
 ]
 
 [webhooks]
