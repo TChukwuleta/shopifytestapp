@@ -3,12 +3,13 @@
 client_id = "cb0bed0116a79c8a78302a9170a11666"
 name = "igbala"
 handle = "igbala"
-application_url = "https://changes-downloadable-hope-communities.trycloudflare.com"
+application_url = "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = false
 dev_store_url = "quickstart-4c9539b2.myshopify.com"
+include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
@@ -16,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://changes-downloadable-hope-communities.trycloudflare.com/auth/callback",
-  "https://changes-downloadable-hope-communities.trycloudflare.com/auth/shopify/callback",
-  "https://changes-downloadable-hope-communities.trycloudflare.com/api/auth/callback"
+  "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app/auth/callback",
+  "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app/auth/shopify/callback",
+  "https://shopifytestapp-1pgxu8k14-tchukwuletas-projects.vercel.app/api/auth/callback"
 ]
 
 [webhooks]
