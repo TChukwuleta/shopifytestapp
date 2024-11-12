@@ -39,7 +39,7 @@ function Extension() {
   const [modalTitle, setModalTitle] = useState('Pay with Bitcoin/Lightning Network');
   const shopName = shop.myshopifyDomain.split('.myshopify.com')[0];
   const options = useSelectedPaymentOptions();
-
+ 
   useEffect(() => {
     const hasManualPaymentOption = options.some((option) => option.type.toLowerCase() === 'manualpayment');
     if (hasManualPaymentOption) {
