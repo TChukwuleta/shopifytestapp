@@ -36,6 +36,7 @@ function Extension() {
   const [error, setError] = useState(null);
   const [modalContent, setModalContent] = useState(null); 
   const [isTokenValid, setIsTokenValid] = useState(false);
+  const [retryCount, setRetryCount] = useState(0); 
   const [modalTitle, setModalTitle] = useState('Pay with Bitcoin/Lightning Network');
   const shopName = shop.myshopifyDomain.split('.myshopify.com')[0];
   const options = useSelectedPaymentOptions();
@@ -79,20 +80,28 @@ function Extension() {
           setIsTokenValid(true);
           setOrderId(validationResponse.data.orderId);
           setModalTitle(validationResponse.data.paymentMethodDescription);
+          setRetryCount(0); 
         }
       } else {
-        setIsTokenValid(false);
-        setTimeout(async () => {
-          await validateToken();
-        }, 3000);
+        retryTokenValidation();
       }
     } catch (error) {
+      retryTokenValidation();
+    } 
+  }; 
+
+  const retryTokenValidation = () => {
+    if (retryCount >= 3) {
+      setError("Failed to connect to BTCPay Server instance. Please contact support or try again later.");
+      setIsTokenValid(false);
+    } else {
+      setRetryCount(retryCount + 1);
       setIsTokenValid(false);
       setTimeout(async () => {
         await validateToken();
       }, 3000);
-    } 
-  }; 
+    }
+  };
 
   const retrieveBTCPayUrl = async (shopName) => {
     const response = await fetch(`${shopifyApplicaitonUrl}/api/btcpaystores?shopName=${shopName}`, {
