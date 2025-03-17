@@ -48,7 +48,6 @@ function Extension() {
         })}
       </Banner>
 
-
       <Text size="large" emphasis="bold">Selected Payment Options:</Text>
       {options.length > 0 ? (
         options.map((option, index) => (
@@ -63,11 +62,6 @@ function Extension() {
       ) : (
         <Text>No payment options selected.</Text>
       )}
-
-
-      <Checkbox onChange={onCheckboxChange}>
-        {translate("iWouldLikeAFreeGiftWithMyOrder")}
-      </Checkbox>
     </BlockStack>
   );
 }
