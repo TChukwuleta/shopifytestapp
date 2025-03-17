@@ -41,17 +41,20 @@ function Extension() {
 
   // 3. Render a UI
   return (
-    <BlockStack border={"dotted"} padding={"tight"}>
+    <BlockStack border="dotted" padding="tight">
       <Banner title="bridgeext">
         {translate("welcome", {
           target: <Text emphasis="italic">{extension.target}</Text>,
         })}
       </Banner>
 
-      <Text size="large" emphasis="bold">Selected Payment Options:</Text>
+      {/* Selected Payment Options */}
+      <Text size="large" emphasis="bold">
+        Selected Payment Options:
+      </Text>
       {options.length > 0 ? (
         options.map((option, index) => (
-          <BlockStack key={index} border="base" padding="tight">
+          <BlockStack key={`selected-${index}`} border="base" padding="tight">
             {Object.entries(option).map(([key, value]) => (
               <Text key={key}>
                 <Text emphasis="bold">{key}:</Text> {JSON.stringify(value)}
@@ -61,6 +64,24 @@ function Extension() {
         ))
       ) : (
         <Text>No payment options selected.</Text>
+      )}
+
+      {/* Available Payment Options */}
+      <Text size="large" emphasis="bold" marginBlockStart="tight">
+        Available Payment Options:
+      </Text>
+      {availableOptions.length > 0 ? (
+        availableOptions.map((option, index) => (
+          <BlockStack key={`available-${index}`} border="base" padding="tight">
+            {Object.entries(option).map(([key, value]) => (
+              <Text key={key}>
+                <Text emphasis="bold">{key}:</Text> {JSON.stringify(value)}
+              </Text>
+            ))}
+          </BlockStack>
+        ))
+      ) : (
+        <Text>No available payment options.</Text>
       )}
     </BlockStack>
   );
