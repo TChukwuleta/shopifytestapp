@@ -1,0 +1,37 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "2b2d36357961a8f95cc7c8fe4d8cd2ee"
+application_url = "https://appraisal-libraries-cycle-fax.trycloudflare.com"
+embedded = true
+name = "testapp"
+handle = "testapp-4280"
+
+[build]
+include_config_on_deploy = true
+dev_store_url = "quickstart-4c9539b2.myshopify.com"
+automatically_update_urls_on_dev = false
+
+[webhooks]
+api_version = "2025-01"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://appraisal-libraries-cycle-fax.trycloudflare.com/auth/callback",
+  "https://appraisal-libraries-cycle-fax.trycloudflare.com/auth/shopify/callback",
+  "https://appraisal-libraries-cycle-fax.trycloudflare.com/api/auth/callback"
+]
+
+[pos]
+embedded = false
