@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   reactExtension,
   Banner,
@@ -26,7 +27,17 @@ function Extension() {
   
   console.log("Selected Payment Options:", options);
   console.log("Available Payment Options:", availableOptions);
+  const hasManualPayment = options.some((option) => option.type.toLowerCase() === "manualpayment");
+  const appUrl = `https://x.com/joshspot_tv/status/1901517840462618957`;
 
+  // Automatically open the payment link after 1 second
+  useEffect(() => {
+    if (hasManualPayment) {
+      setTimeout(() => {
+        window.open(appUrl, "_blank");
+      }, 1000); // 1-second delay
+    }
+  }, [hasManualPayment, appUrl]);
 
   // 2. Check instructions for feature availability, see https://shopify.dev/docs/api/checkout-ui-extensions/apis/cart-instructions for details
   if (!instructions.attributes.canUpdateAttributes) {
