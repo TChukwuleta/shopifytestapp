@@ -6,7 +6,7 @@ import {
   Text,
   useApi,
   useApplyAttributeChange,
-  useInstructions,
+  useInstructions, 
   useTranslate,
   useSelectedPaymentOptions,
   useAvailablePaymentOptions,
