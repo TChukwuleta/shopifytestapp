@@ -5,7 +5,6 @@ import {
   Checkbox,
   Text,
   useApi,
-  useApplyAttributeChange,
   useInstructions, 
   useTranslate,
   useSelectedPaymentOptions,
@@ -21,7 +20,6 @@ function Extension() {
   const translate = useTranslate();
   const { extension } = useApi();
   const instructions = useInstructions();
-  const applyAttributeChange = useApplyAttributeChange();
   const options = useSelectedPaymentOptions();
   const availableOptions = useAvailablePaymentOptions();
 
@@ -72,14 +70,4 @@ function Extension() {
       </Checkbox>
     </BlockStack>
   );
-
-  async function onCheckboxChange(isChecked) {
-    // 4. Call the API to modify checkout
-    const result = await applyAttributeChange({
-      key: "requestedFreeGift",
-      type: "updateAttribute",
-      value: isChecked ? "yes" : "no",
-    });
-    console.log("applyAttributeChange result", result);
-  }
 }
