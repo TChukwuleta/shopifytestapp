@@ -42,7 +42,7 @@ function Extension() {
         setIsLoading(false);
       }
     };
-    const timer = setTimeout(fetchInvoice, 2000);
+    const timer = setTimeout(fetchInvoice, 1000);
     return () => clearTimeout(timer)
   }, [hasManualPayment]);
 
