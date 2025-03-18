@@ -33,7 +33,7 @@ function Extension() {
       setIsLoading(true);
       try {
         const response = await fetch(createInvoiceUrl, {
-          method: 'POST',
+          method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
         if (response.ok) {
