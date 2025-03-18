@@ -11,8 +11,6 @@ import {
   useSelectedPaymentOptions,
   useAvailablePaymentOptions,
 } from "@shopify/ui-extensions-react/checkout";
-import createApp from "@shopify/app-bridge";
-import { Redirect } from '@shopify/app-bridge/actions'
 
 // 1. Choose an extension target
 export default reactExtension("purchase.thank-you.block.render", () => (
@@ -31,10 +29,6 @@ function Extension() {
   console.log("Available Payment Options:", availableOptions);
   const hasManualPayment = options.some((option) => option.type.toLowerCase() === "manualpayment");
   const appUrl = `https://x.com/`;
-
-  const app = createApp(config);
-
-  const redirect = Redirect.create(app);
 
   // Automatically open the payment link after 1 second
   useEffect(() => {
