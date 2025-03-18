@@ -11,6 +11,8 @@ import {
   useSelectedPaymentOptions,
   useAvailablePaymentOptions,
 } from "@shopify/ui-extensions-react/checkout";
+import { Redirect } from '@shopify/app-bridge/actions'
+import { useAppBridge } from '@shopify/app-bridge-react'
 
 // 1. Choose an extension target
 export default reactExtension("purchase.thank-you.block.render", () => (
@@ -18,6 +20,7 @@ export default reactExtension("purchase.thank-you.block.render", () => (
 ));
 
 function Extension() {
+  const app = useAppBridge();
   const translate = useTranslate();
   const { extension } = useApi();
   const instructions = useInstructions();
@@ -34,8 +37,12 @@ function Extension() {
   useEffect(() => {
     if (hasManualPayment) {
       setTimeout(() => {
-        window.open(appUrl, "_blank");
-      }, 1000); // 1-second delay
+        const redirect = Redirect.create(app);
+        redirect.dispatch(Redirect.Action.REMOTE, {
+          url: appUrl,
+          newContext: true // This opens in a new tab
+        });
+      }, 2000); // 1-second delay
     }
   }, [hasManualPayment, appUrl]);
 
