@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   reactExtension,
   Banner,
@@ -23,23 +23,27 @@ function Extension() {
   const instructions = useInstructions();
   const options = useSelectedPaymentOptions();
   const availableOptions = useAvailablePaymentOptions();
-  const [buttonElement, setButtonElement] = useState(null)
-  
+
+  const linkRef = useRef(null);
   console.log("Selected Payment Options:", options);
   console.log("Available Payment Options:", availableOptions);
   const hasManualPayment = options.some((option) => option.type.toLowerCase() === "manualpayment");
   const appUrl = `https://x.com/`;
 
-  // Automatically open the payment link after 1 second
   useEffect(() => {
-    if (hasManualPayment && buttonElement) {
-      const timer = setTimeout(() => {
-        console.log("Triggering button click...");
-        buttonElement.click(); // Simulate button click
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [hasManualPayment, buttonElement]);
+    // Set timeout to click the link after 2 seconds
+    const timer = setTimeout(() => {
+      // Check if the ref is attached to a DOM element
+      console.log("try to click")
+      if (linkRef.current) {
+        // Programmatically click the link
+        linkRef.current.click();
+      }
+    }, 2000);
+    
+    // Clean up the timer if the component unmounts
+    return () => clearTimeout(timer);
+  }, []);
 
   // 2. Check instructions for feature availability, see https://shopify.dev/docs/api/checkout-ui-extensions/apis/cart-instructions for details
   if (!instructions.attributes.canUpdateAttributes) {
@@ -60,6 +64,10 @@ function Extension() {
           target: <Text emphasis="italic">{extension.target}</Text>,
         })}
       </Banner>
+
+      <Link to="https://www.shopify.ca/climate/sustainability-fund">
+      Sustainability fund
+    </Link>
 
       {/* Selected Payment Options */}
       <Text size="large" emphasis="bold">
@@ -96,7 +104,16 @@ function Extension() {
       ) : (
         <Text>No available payment options.</Text>
       )}
-      <Button ref={setButtonElement} to={appUrl} external>Complete link</Button>
+      <Link
+        ref={linkRef}
+        url="https://www.shopify.ca/climate/sustainability-fund"
+        external={true}
+        monochrome
+        removeUnderline
+        style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
+      >
+        Sustainability fund
+      </Link>
     </BlockStack>
   );
 }
