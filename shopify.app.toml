@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "2b2d36357961a8f95cc7c8fe4d8cd2ee"
-application_url = "https://appraisal-libraries-cycle-fax.trycloudflare.com"
+application_url = "https://shopifytestapp-c73r.vercel.app"
 embedded = true
 name = "testapp"
 handle = "testapp-4280"
@@ -28,9 +28,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://appraisal-libraries-cycle-fax.trycloudflare.com/auth/callback",
-  "https://appraisal-libraries-cycle-fax.trycloudflare.com/auth/shopify/callback",
-  "https://appraisal-libraries-cycle-fax.trycloudflare.com/api/auth/callback"
+  "https://shopifytestapp-c73r.vercel.app/auth/callback",
+  "https://shopifytestapp-c73r.vercel.app/auth/shopify/callback",
+  "https://shopifytestapp-c73r.vercel.app/api/auth/callback"
 ]
 
 [pos]
