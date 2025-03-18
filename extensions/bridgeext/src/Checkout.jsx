@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   reactExtension,
   Banner,
   BlockStack,
+  Button,
   Checkbox,
   Text,
   useApi,
@@ -11,8 +12,6 @@ import {
   useSelectedPaymentOptions,
   useAvailablePaymentOptions,
 } from "@shopify/ui-extensions-react/checkout";
-import { Redirect } from '@shopify/app-bridge/actions'
-import { useAppBridge } from '@shopify/app-bridge-react'
 
 // 1. Choose an extension target
 export default reactExtension("purchase.thank-you.block.render", () => (
@@ -20,7 +19,6 @@ export default reactExtension("purchase.thank-you.block.render", () => (
 ));
 
 function Extension() {
-  const app = useAppBridge();
   const translate = useTranslate();
   const { extension } = useApi();
   const instructions = useInstructions();
@@ -33,15 +31,12 @@ function Extension() {
   const hasManualPayment = options.some((option) => option.type.toLowerCase() === "manualpayment");
   const appUrl = `https://x.com/joshspot_tv/status/1901517840462618957`;
 
+  const buttonRef = useRef(null)
   // Automatically open the payment link after 1 second
   useEffect(() => {
     if (hasManualPayment) {
       setTimeout(() => {
-        const redirect = Redirect.create(app);
-        redirect.dispatch(Redirect.Action.REMOTE, {
-          url: appUrl,
-          newContext: true // This opens in a new tab
-        });
+        buttonRef.current.dispatchEvent(new Event("click", { bubbles: true }));
       }, 2000); // 1-second delay
     }
   }, [hasManualPayment, appUrl]);
@@ -101,6 +96,7 @@ function Extension() {
       ) : (
         <Text>No available payment options.</Text>
       )}
+      <Button ref={buttonRef} to={appUrl} external>Complete link</Button>
     </BlockStack>
   );
 }
