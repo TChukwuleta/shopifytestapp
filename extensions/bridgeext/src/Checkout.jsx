@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   reactExtension,
   Banner,
@@ -25,7 +25,7 @@ function Extension() {
   const instructions = useInstructions();
   const options = useSelectedPaymentOptions();
   const availableOptions = useAvailablePaymentOptions();
-
+  const [buttonElement, setButtonElement] = useState(null)
   
   console.log("Selected Payment Options:", options);
   console.log("Available Payment Options:", availableOptions);
@@ -38,18 +38,14 @@ function Extension() {
 
   // Automatically open the payment link after 1 second
   useEffect(() => {
-    if (hasManualPayment) {
-      setTimeout(() => {
-        console.log("It hit here at the very least")
-        const app = createApp(config);
-        const redirect = Redirect.create(app);
-        redirect.dispatch(Redirect.Action.REMOTE, {
-          url: 'http://example.com',
-          newContext: true,
-        });
-      }, 2000); // 1-second delay
+    if (hasManualPayment && buttonElement) {
+      const timer = setTimeout(() => {
+        console.log("Triggering button click...");
+        buttonElement.click(); // Simulate button click
+      }, 2000);
+      return () => clearTimeout(timer);
     }
-  }, [hasManualPayment, appUrl]);
+  }, [hasManualPayment, buttonElement]);
 
   // 2. Check instructions for feature availability, see https://shopify.dev/docs/api/checkout-ui-extensions/apis/cart-instructions for details
   if (!instructions.attributes.canUpdateAttributes) {
@@ -106,7 +102,7 @@ function Extension() {
       ) : (
         <Text>No available payment options.</Text>
       )}
-      <Button to={appUrl} external>Complete link</Button>
+      <Button ref={setButtonElement} to={appUrl} external>Complete link</Button>
     </BlockStack>
   );
 }
