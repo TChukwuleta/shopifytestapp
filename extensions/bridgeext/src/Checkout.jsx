@@ -1,76 +1,61 @@
-import { useEffect, useRef } from "react";
 import {
   reactExtension,
-  Banner,
   BlockStack,
   Button,
-  Link,
   Text,
   useApi,
-  useInstructions, 
-  useTranslate,
-  useSelectedPaymentOptions,
-  useAvailablePaymentOptions,
+  Spinner,
+  useSelectedPaymentOptions
 } from "@shopify/ui-extensions-react/checkout";
+import { useEffect, useState } from "react";
 
 // 1. Choose an extension target
 export default reactExtension("purchase.thank-you.block.render", () => (
   <Extension />
 ));
 
-function Extension() {
-  const translate = useTranslate();
-  const { extension } = useApi();
-  const instructions = useInstructions();
-  const options = useSelectedPaymentOptions();
-  const availableOptions = useAvailablePaymentOptions();
 
-  const linkRef = useRef(null);
+function Extension() {
+  const options = useSelectedPaymentOptions();
+  const { shop, checkoutToken } = useApi();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const hasManualPayment = options.some((option) => option.type.toLowerCase() === 'manualpayment');
+  const createInvoiceUrl = `https://6d87-102-89-23-165.ngrok-free.app/stores/JC52vAtXMKK2C8wyoXDPuGB1wAcUoHqFnzYdyNhEoEZV/plugins/shopify-v2/create-invoice?checkout_token=${checkoutToken.current}`;
+  const checkoutUrl = `https://6d87-102-89-23-165.ngrok-free.app/stores/JC52vAtXMKK2C8wyoXDPuGB1wAcUoHqFnzYdyNhEoEZV/plugins/shopify-v2/checkout?checkout_token=${checkoutToken.current}`;
+
   console.log("Selected Payment Options:", options);
-  console.log("Available Payment Options:", availableOptions);
-  const hasManualPayment = options.some((option) => option.type.toLowerCase() === "manualpayment");
-  const appUrl = `https://x.com/`;
 
   useEffect(() => {
-    // Set timeout to click the link after 2 seconds
-    const timer = setTimeout(() => {
-      // Check if the ref is attached to a DOM element
-      console.log("try to click")
-      if (linkRef.current) {
-        // Programmatically click the link
-        linkRef.current.click();
+    if (!hasManualPayment) return;
+
+    const fetchInvoice = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(createInvoiceUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (response.ok) {
+          setIsSuccess(true);
+        }
+      } catch (error) {
+        console.error("Failed to create invoice:", error);
+      } finally {
+        setIsLoading(false);
       }
-    }, 2000);
-    
-    // Clean up the timer if the component unmounts
-    return () => clearTimeout(timer);
-  }, []);
+    };
+    const timer = setTimeout(fetchInvoice, 2000);
+    return () => clearTimeout(timer)
+  }, [hasManualPayment]);
 
-  // 2. Check instructions for feature availability, see https://shopify.dev/docs/api/checkout-ui-extensions/apis/cart-instructions for details
-  if (!instructions.attributes.canUpdateAttributes) {
-    // For checkouts such as draft order invoices, cart attributes may not be allowed
-    // Consider rendering a fallback UI or nothing at all, if the feature is unavailable
-    return (
-      <Banner title="bridgeext" status="warning">
-        {translate("attributeChangesAreNotSupported")}
-      </Banner>
-    );
-  }
+  if (!hasManualPayment || (!isLoading && !isSuccess)) return null;
 
-  // 3. Render a UI
-  return (
-    <BlockStack border="dotted" padding="tight">
-      <Banner title="bridgeext">
-        {translate("welcome", {
-          target: <Text emphasis="italic">{extension.target}</Text>,
-        })}
-      </Banner>
-
-      <Link to="https://www.shopify.ca/climate/sustainability-fund">
-      Sustainability fund
-    </Link>
-
-      {/* Selected Payment Options */}
+  return isLoading ? (
+    <Spinner />
+  ) : (
+    <BlockStack>
+      <Text>Shop name: {shop.name}</Text>
       <Text size="large" emphasis="bold">
         Selected Payment Options:
       </Text>
@@ -87,34 +72,7 @@ function Extension() {
       ) : (
         <Text>No payment options selected.</Text>
       )}
-
-      {/* Available Payment Options */}
-      <Text size="large" emphasis="bold" marginBlockStart="tight">
-        Available Payment Options:
-      </Text>
-      {availableOptions.length > 0 ? (
-        availableOptions.map((option, index) => (
-          <BlockStack key={`available-${index}`} border="base" padding="tight">
-            {Object.entries(option).map(([key, value]) => (
-              <Text key={key}>
-                <Text emphasis="bold">{key}:</Text> {JSON.stringify(value)}
-              </Text>
-            ))}
-          </BlockStack>
-        ))
-      ) : (
-        <Text>No available payment options.</Text>
-      )}
-      <Link
-        ref={linkRef}
-        url="https://www.shopify.ca/climate/sustainability-fund"
-        external={true}
-        monochrome
-        removeUnderline
-        style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
-      >
-        Sustainability fund
-      </Link>
+      <Button to={checkoutUrl} external>Complete Test Payment</Button>
     </BlockStack>
   );
 }
