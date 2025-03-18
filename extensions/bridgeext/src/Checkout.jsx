@@ -51,28 +51,33 @@ function Extension() {
 
   if (!hasManualPayment || (!isLoading && !isSuccess)) return null;
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  return (
     <BlockStack>
-      <Text>Shop name: {shop.name}</Text>
-      <Text size="large" emphasis="bold">
-        Selected Payment Options:
-      </Text>
-      {options.length > 0 ? (
-        options.map((option, index) => (
-          <BlockStack key={`selected-${index}`} border="base" padding="tight">
-            {Object.entries(option).map(([key, value]) => (
-              <Text key={key}>
-                <Text emphasis="bold">{key}:</Text> {JSON.stringify(value)}
-              </Text>
-            ))}
-          </BlockStack>
-        ))
-      ) : (
-        <Text>No payment options selected.</Text>
-      )}
-      <Button to={checkoutUrl} external>Complete Test Payment</Button>
+      {isLoading ? (
+        <Spinner />
+      ) : isSuccess ? (
+        <>
+          <Text>Shop name: {shop.name}</Text>
+          <Text size="large" emphasis="bold">
+            Selected Payment Options:
+          </Text>
+          {options.length > 0 ? (
+            options.map((option, index) => (
+              <BlockStack key={`selected-${index}`} border="base" padding="tight">
+                {Object.entries(option).map(([key, value]) => (
+                  <Text key={key}>
+                    <Text emphasis="bold">{key}:</Text> {JSON.stringify(value)}
+                  </Text>
+                ))}
+              </BlockStack>
+            ))
+          ) : (
+            <Text>No payment options selected.</Text>
+          )}
+          <Button to={checkoutUrl} external>Complete Test Payment</Button>
+        </>
+      ) : null}
     </BlockStack>
   );
+  
 }
