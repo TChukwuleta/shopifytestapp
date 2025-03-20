@@ -14,7 +14,7 @@ export default reactExtension("purchase.thank-you.block.render", () => (
   <Extension />
 ));
 
-
+ 
 function Extension() {
   const options = useSelectedPaymentOptions();
   const { shop, checkoutToken } = useApi();
