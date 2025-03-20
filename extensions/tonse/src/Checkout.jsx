@@ -20,7 +20,7 @@ function Extension() {
   const { shop, checkoutToken } = useApi();
   const [isLoading, setIsLoading] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
-  const baseUrl = "https://6d87-102-89-23-165.ngrok-free.app/stores/JC52vAtXMKK2C8wyoXDPuGB1wAcUoHqFnzYdyNhEoEZV/plugins/shopify-v2";
+  const baseUrl = "https://a27a-102-89-33-186.ngrok-free.app/stores/3uQVnBe7CAwq7E7BH68FR5Smr93hCB66hqZMr3D1L27x/plugins/shopify-v2";
   const hasManualPayment = options.some((option) => option.type.toLowerCase() === 'manualpayment');
   const createInvoiceUrl = `${baseUrl}/create-invoice?checkout_token=${checkoutToken.current}`;
   const checkoutUrl = `${baseUrl}/checkout?checkout_token=${checkoutToken.current}`;
