@@ -30,12 +30,10 @@ function Extension() {
       setIsLoading(true);
       try {
         var norlan = `${checkoutUrl.replace('redirect=true', 'redirect=false')}`;
-        console.log(norlan);
         const response = await fetch(norlan, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
-        console.log(response);
         if (response.ok) {
           setIsSuccess(true);
         }
