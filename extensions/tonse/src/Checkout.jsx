@@ -33,8 +33,9 @@ function Extension() {
         const response = await fetch(createInvoiceUrl, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
+          redirect: 'manual'
         });
-        if (response.ok) {
+        if (response.ok || (response.status >= 300 && response.status < 400)) {
           setIsSuccess(true);
         }
       } catch (error) {} 
