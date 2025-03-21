@@ -32,7 +32,6 @@ function Extension() {
         const response = await fetch(checkoutUrl, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
-          redirect: 'manual'
         });
         console.log(response);
         if (response.ok || (response.status >= 300 && response.status < 400)) {
