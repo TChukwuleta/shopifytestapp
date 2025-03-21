@@ -29,7 +29,9 @@ function Extension() {
     const fetchInvoice = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${checkoutUrl.replace('redirect=true', 'redirect=false')}`, {
+        var norlan = `${checkoutUrl.replace('redirect=true', 'redirect=false')}`;
+        console.log(norlan);
+        const response = await fetch(norlan, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
