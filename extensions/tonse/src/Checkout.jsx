@@ -34,6 +34,7 @@ function Extension() {
           headers: { 'Content-Type': 'application/json' },
           redirect: 'manual'
         });
+        console.log(response);
         if (response.ok || (response.status >= 300 && response.status < 400)) {
           setIsSuccess(true);
         }
