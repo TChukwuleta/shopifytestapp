@@ -22,7 +22,6 @@ function Extension() {
   const [isSuccess, setIsSuccess] = useState(false);
   const baseUrl = "https://9afb-197-210-28-179.ngrok-free.app/stores/CWriqRjcLFNS3N8u2BjavYCGF9XbaTxzXGTqdD7rPEum/plugins/shopify-v2";
   const hasManualPayment = options.some((option) => option.type.toLowerCase() === 'manualpayment');
-  const createInvoiceUrl = `${baseUrl}/create-invoice?checkout_token=${checkoutToken.current}`;
   const checkoutUrl = `${baseUrl}/checkout?checkout_token=${checkoutToken.current}`;
 
   useEffect(() => {
@@ -30,7 +29,7 @@ function Extension() {
     const fetchInvoice = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(createInvoiceUrl, {
+        const response = await fetch(checkoutUrl, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           redirect: 'manual'
