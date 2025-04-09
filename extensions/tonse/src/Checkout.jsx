@@ -20,6 +20,7 @@ function Extension() {
   const { shop, checkoutToken } = useApi();
   const [isLoading, setIsLoading] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const baseUrl = "https://b2d4-102-89-46-13.ngrok-free.app/stores/3tfqWXCUvmWtDEMSRrd9Ur3ZzqXVfe25w94m8jwcv9Ci/plugins/shopify-v2";
   const hasManualPayment = options.some((option) => option.type.toLowerCase() === 'manualpayment');
   const checkoutUrl = `${baseUrl}/checkout?checkout_token=${checkoutToken.current}`;
@@ -36,7 +37,14 @@ function Extension() {
         if (response.ok) {
           setIsSuccess(true);
         }
-      } catch (error) {} 
+        else if (response.status !== 404) {
+          const errorText = await response.text();
+          console.log(errorText);
+          setErrorMessage(`Failed to fetch invoice: ${errorText || response.statusText}`);
+        }
+      } catch (error) {
+        setErrorMessage(`Failed to fetch invoice. ${error.message}`);
+      } 
       finally {
         setIsLoading(false);
       }
@@ -50,6 +58,9 @@ function Extension() {
   return (
     <BlockStack>
       {isLoading && <Spinner />}
+      {!isLoading && errorMessage && (
+        <Text appearance="critical">{errorMessage}</Text>
+      )}
       {!isLoading && isSuccess && (
         <>
           <Text>Shop name: {shop.name}</Text>
