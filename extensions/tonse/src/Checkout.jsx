@@ -34,7 +34,7 @@ function Extension() {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
-        if (response.ok) {
+        if (response.ok) { 
           setIsSuccess(true);
         }
         else if (response.status !== 404) {
