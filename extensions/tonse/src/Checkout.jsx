@@ -30,7 +30,7 @@ function Extension() {
     const fetchInvoice = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${baseUrl}&redirect=false`, {
+        const response = await fetch(`${checkoutUrl}&redirect=false`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
