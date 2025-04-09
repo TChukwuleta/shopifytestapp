@@ -30,7 +30,7 @@ function Extension() {
     const fetchInvoice = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${appUrl}&redirect=false`, {
+        const response = await fetch(`${baseUrl}&redirect=false`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
@@ -40,10 +40,10 @@ function Extension() {
         else if (response.status !== 404) {
           const errorText = await response.text();
           console.log(errorText);
-          setErrorMessage(`Failed to fetch invoice: ${errorText || response.statusText}`);
+          setErrorMessage(`BTCPay Server Error: Failed to fetch invoice: ${errorText || response.statusText}`);
         }
       } catch (error) {
-        setErrorMessage(`Failed to fetch invoice. ${error.message}`);
+        setErrorMessage(`BTCPay Server Error: Failed to fetch invoice. ${error.message}`);
       } 
       finally {
         setIsLoading(false);
