@@ -59,7 +59,7 @@ function Extension() {
     <BlockStack>
       {isLoading && <Spinner />}
       {!isLoading && errorMessage && (
-        <Text appearance="critical">{errorMessage}</Text>
+        <Text size="large" appearance="critical">{errorMessage}</Text>
       )}
       {!isLoading && isSuccess && (
         <>
